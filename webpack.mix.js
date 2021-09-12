@@ -6,6 +6,6 @@ mix.js('src/app.js', 'public/js')
     require('tailwindcss'),
   ])
   mix.browserSync({
-  	proxy: 'plate.test',
+  	proxy: 'cookies.test',
 	files: ["css/app.css", "public/*.php", "public/*.html"]
   });
