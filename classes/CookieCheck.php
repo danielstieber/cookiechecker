@@ -29,9 +29,12 @@ class CookieCheck {
         return $page->evaluate('document.title')->getReturnValue();
     }
 
-    public function getCookies(String $url)
+    public function getCookies(Array $services)
     {
-        $page = $this->getPage($url);
-        return $page->getCookies();
+        foreach($services as $key => $service) {
+            $page = $this->getPage($key);
+            $services[$key]['result'] = $page->getCookies();
+        }
+        return $services;
     }
 }
