@@ -1,19 +1,18 @@
-Plate 0.1
+Cookie Checker Study
 =======================
 
-A simple boilerplate for quick web projects. This replaces the deprecated [Boilerplate](https://github.com/danielstieber/boilerplate)
+A quick & dirty tool using headless chrome to check if a provided list of websites set cookies without your permissions.
 
-Includes
-* [Laravel-Mix](https://github.com/JeffreyWay/laravel-mix)
-* [TailwindCSS](https://github.com/tailwindcss/tailwindcss)
+## Basic Usage:
+- Install composer dependencies
+- Edit URL list in src/app.php
 
-## Usage
-
-* Run `npm install --dev` to install dependencies. 
-* Run `npm run watch` to start with browsersync on your development environment.
-* Run `npm run production` on your production environment.
-
-## Changelog
-
-*0.1.0*
-- Initial version
+## Custom Cookies
+You can watch for custom cookies by adding an array to the formula:
+```php
+$cookies = $cc->getCookies($services, [
+		'_gid' => ['name' => 'Google Analytics'],
+		'_fbp' => ['name' => 'Facebook Pixel']
+	]
+);
+```

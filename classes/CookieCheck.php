@@ -4,7 +4,29 @@ use HeadlessChromium\BrowserFactory;
 
 class CookieCheck {
     private $browser;
-
+    private $trackers = [
+        '_ga' => [
+            'name' => 'Google Analytics'
+        ],
+        '_fbp' => [
+            'name' => 'Facebook Pixel'
+        ],
+        '_fbp' => [
+            'name' => 'Facebook Pixel'
+        ],
+        'sailthru_visitor' => [
+            'name' => 'Sailthru Tracking'
+        ],
+        '_pin_unauth' => [
+            'name' => 'Pinterest Tracking'
+        ],
+        'li_at' => [
+            'name' => 'LinkedIn Pixel'
+        ],
+        's_cc' => [
+            'name' => 'Adobe Analytics'
+        ]
+    ];
     function __construct() {
         $browserFactory = new BrowserFactory();
         $this->browser = $browserFactory->createBrowser();
@@ -15,9 +37,8 @@ class CookieCheck {
 
     private function getPage(String $url) {
         try {
-            // creates a new page and navigate to an url
             $page = $this->browser->createPage();
-            $page->navigate($url)->waitForNavigation();
+            $page->navigate($url)->waitForNavigation(\HeadlessChromium\Page::NETWORK_IDLE);
         } finally {
             
         }
@@ -29,12 +50,23 @@ class CookieCheck {
         return $page->evaluate('document.title')->getReturnValue();
     }
 
-    public function getCookies(Array $services)
+    public function getCookies(Array $services, $trackers = [])
     {
-        foreach($services as $key => $service) {
-            $page = $this->getPage($key);
-            $services[$key]['result'] = $page->getCookies();
+        if(empty($trackers)) {
+            $trackers = $this->trackers;
         }
-        return $services;
+        $result = [];
+        foreach($services as $service) {
+            $page = $this->getPage($service);
+            $cookies = $page->getCookies();
+            $result[$service]['trackers'] = $trackers;
+            foreach($cookies as $key => $cookie)
+            {
+                if  (isset($trackers[$cookie['name']])) {
+                    $result[$service]['trackers'][$cookie['name']]['status'] = 1;
+                }
+            }
+        }
+        return $result;
     }
 }

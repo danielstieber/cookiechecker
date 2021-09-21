@@ -10,19 +10,19 @@
 		<link rel="stylesheet" href="css/app.css">
 	</head>
 	<body class="bg-blue-50 w-full p-10">
-		<h1 class="text-3xl text-blue-700 mb-6">Lieferservice Cookie Checker</h1>
+		<h1 class="text-3xl text-blue-900 font-bold mb-6">Multipage Cookie Checker</h1>
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 <?php
-foreach($services as $key => $service) {
+foreach($cookies as $url => $service) {
 ?>
 <div class="p-4 bg-white shadow">
-	<h2 class="text-xl font-bold text-gray-700 mb-2"><?=$key?></h2>
+	<h2 class="text-xl font-bold text-gray-700 mb-2"><?=$url?></h2>
 	<ul class="pl-2 w-96">
 <?php
 	foreach($service['trackers'] as $tracker) {
 ?>
 		<li class="flex justify-between text-center">
-			<span class="text-gray-800"><?=$tracker['name']?></span><span class="<?=$tracker['count'] > 0 ? 'text-red-500' : 'text-gray-500'?>"><?=$tracker['count'] > 0 ? '
+			<span class="text-gray-800"><?=$tracker['name']?></span><span class="<?=isset($tracker['status']) && $tracker['status'] == 1 ? 'text-red-500' : 'text-gray-500'?>"><?=isset($tracker['status']) && $tracker['status'] == 1 ? '
 			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M12 4.75L4.75002 8C4.75002 8 4.00002 19.25 12 19.25C20 19.25 19.25 8 19.25 8L12 4.75Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 <path d="M12.5 15C12.5 15.2761 12.2761 15.5 12 15.5C11.7239 15.5 11.5 15.2761 11.5 15C11.5 14.7239 11.7239 14.5 12 14.5C12.2761 14.5 12.5 14.7239 12.5 15Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
